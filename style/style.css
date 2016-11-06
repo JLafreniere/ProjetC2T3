@@ -19,8 +19,7 @@ input[type="button"], input[type="submit"]{
 }
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 
 label {
     width:180px;
@@ -28,16 +27,11 @@ label {
 text-align: center;    
     margin: 0 auto;
 }
-=======
+
 .col1{width:20%;}
 .col2{width:35%;}
 .col3{width:15%;}
->>>>>>> 09b67ff6d3c42b51d2f637c228ca7fe7cdb40ed9
-=======
-.col1{width:20%;}
-.col2{width:35%;}
-.col3{width:15%;}
->>>>>>> 09b67ff6d3c42b51d2f637c228ca7fe7cdb40ed9
+
 
 input[type="text"], label {
     
