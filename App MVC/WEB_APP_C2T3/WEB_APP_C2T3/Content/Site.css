@@ -39,7 +39,7 @@ display: inline-block;
 
 
 input[type="button"], input[type="submit"]{
-  width: 140px;
+  width: 160px;
   height: 46px;
 }
 
@@ -97,6 +97,7 @@ input[type="text"]{
 }
 .mg-right{
    margin-right: 10px !important;
+   text-align: center;
 }
 
 .center{
@@ -104,6 +105,16 @@ input[type="text"]{
     margin-left: -10%;
 }
 
-th{
+tr{
+    text-align: center !important;
+    padding-top: 10px;
+}
+
+table{
     text-align: center;
+}
+
+#champsGPS {
+    text-align:center;
+    padding-bottom: 10px;
 }

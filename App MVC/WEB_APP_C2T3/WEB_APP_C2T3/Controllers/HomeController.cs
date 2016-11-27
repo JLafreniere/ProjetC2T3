@@ -32,7 +32,7 @@ public ActionResult Accueil()
         }
 
         
-        public ActionResult EffacerAlertes()
+        public void EffacerAlertes()
         {
             using (IDal dal = new Dal())
             {
@@ -42,13 +42,13 @@ public ActionResult Accueil()
                 getGps();
                 ViewBag.nbAlertes = alertes.Count;
             }
-            return View("Accueil");
+          
         }
 
 
 
 
-        public ActionResult EnvoyerAlerte()
+        public void EnvoyerAlerte()
         {
             using (IDal dal = new Dal())
             {
@@ -57,25 +57,25 @@ public ActionResult Accueil()
                 getGps();
                 ViewBag.nbAlertes = alertes.Count;
             }
-            return View("Accueil");
+          
         }
 
         [HttpPost]
-        public ActionResult CreerEntreeGPS()
+        public void CreerEntreeGPS()
         {
             using (IDal dal = new Dal())
             {
                 double latitude = Double.Parse(Request["lat"]);
                 double longitude = Double.Parse(Request["long"]);
                 string id = Request["id_appareil"];
-                Debug.WriteLine("My debug string here");
+                
                 dal.CreerEntreeGPS(id, latitude, longitude);
                 positionEnregistree = true;
                 ViewBag.positionEnregistree = positionEnregistree;
                 positionEnregistree = false;
                 getGps(); 
             }
-            return View("Accueil");
+            
         }
 
         public void getGps() { 
@@ -85,9 +85,44 @@ public ActionResult Accueil()
             }
         }
 
+        [HttpPost]
+        public void EnregistrerPosition()
+        {
+            using (IDal dal = new Dal())
+            {
+
+                double latitude = Double.Parse(Request["lat"]);
+                double longitude = Double.Parse(Request["long"]);
+                string id = Request["id_appareil"];
+                Debug.WriteLine("My debug string here");
+                dal.CreerEntreeGPS(id, latitude, longitude);
+                positionEnregistree = true;
+                ViewBag.positionEnregistree = positionEnregistree;
+                positionEnregistree = false;
+                getGps();
+            }
+          
+        }
+
+        [HttpPost]
+        public void SupprimerEntreeGPS()
+        {
+            using (IDal dal = new Dal())
+            {
+                
+                int id = int.Parse(Request["id_entree"]);
+                System.Diagnostics.Debug.WriteLine("Suppression de l'enregistrement: " + id);
+                dal.supprimerEntreeGps(id);
+              
+            }
+
+        }
+
+
+
     }
 
-   
+
 
 
 

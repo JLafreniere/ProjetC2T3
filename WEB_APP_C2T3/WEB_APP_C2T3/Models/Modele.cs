@@ -41,8 +41,10 @@ namespace WEB_APP_C2T3.Models
         void CreerAlerte(string _message);
         void ResoudreAlerte(int id);
         List<Alerte> ObtientToutesLesAlertes();
+        List<EntreeGPS> ObtientToutesLesEntreesGPS();
         void effacerAlertes();
         void CreerEntreeGPS(string id_appareil, double _latitude, double _longitude);
+        void supprimerEntreeGps(int id);
     }
 
 
@@ -81,6 +83,12 @@ namespace WEB_APP_C2T3.Models
             bdd.Database.ExecuteSqlCommand("delete from alertes");
         }
 
+        public void supprimerEntreeGps(int id)
+        {
+            System.Diagnostics.Debug.WriteLine("delete from EntreeGPS where id = " + id);
+            bdd.Database.ExecuteSqlCommand("delete from EntreeGPS where Id = " + id);
+        }
+
         public void ResoudreAlerte(int id)
         {
             Alerte alerteTrouve = bdd.Alertes.FirstOrDefault(alerte => alerte.Id == id);
@@ -95,6 +103,11 @@ namespace WEB_APP_C2T3.Models
         public void Dispose()
         {
             bdd.Dispose();
+        }
+
+        public List<EntreeGPS> ObtientToutesLesEntreesGPS()
+        {
+            return bdd.GPS.ToList();
         }
     }
 

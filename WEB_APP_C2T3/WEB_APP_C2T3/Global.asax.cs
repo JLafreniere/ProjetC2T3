@@ -7,6 +7,8 @@ using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
 using System.Web.Http;
+using System.Diagnostics;
+using Microsoft.ApplicationInsights.Extensibility;
 
 namespace WEB_APP_C2T3
 {
@@ -14,10 +16,18 @@ namespace WEB_APP_C2T3
     {
         void Application_Start(object sender, EventArgs e)
         {
+            DisableApplicationInsightsOnDebug();
             // Code that runs on application startup
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);            
+        }
+
+
+        [Conditional("DEBUG")]
+        private static void DisableApplicationInsightsOnDebug()
+        {
+            TelemetryConfiguration.Active.DisableTelemetry = true;
         }
     }
 }

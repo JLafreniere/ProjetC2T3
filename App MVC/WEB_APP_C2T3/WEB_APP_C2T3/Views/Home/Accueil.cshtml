@@ -8,11 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="icon2.png">
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" media="screen" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    
     <style>
           /* Always set the map height explicitly to define the size of the div
         * element that contains the map. */
           #map {
-              height: 400px;
+              height: 600px;
               width: 100%;
               margin: 0 auto;
           }
@@ -25,9 +27,12 @@
     </style>
 </head>
 <body>
+    
 
-
-    <script> var infoWindow;</script>
+    <script>
+        var infoWindow;
+        var TrackPosition = false;
+    </script>
 
  
 
@@ -46,55 +51,102 @@
         </div>
         <!-- /.row -->
         <div class="container-fluid">
-            <div class="row">
+            <div class="row" style="text-align: center">
 
                         <!-- Form Name -->
                         <h2 style="text-align: center; width:100%">Localisation</h2><hr />
                 @if (ViewBag.positionEnregistree != null)
                 {
-                    <h3 style="text-align: center; margin-left: 5%"><span style="background-color: lightgreen;"> POSITION ENREGISTRÉE </span></h3>
+                    <div style="width:300px;
+height:70px;
+
+background-color: lightgreen;
+
+display: inline-block;
+vertical-align: text-top">
+                        <h3 style="text-align: center; margin-left: 5%; margin-top: 10px"><span> POSITION ENREGISTRÉE </span></h3>
+                    </div>
                 }
 
 
                         <div class="row">
-                            <div class="col-xs-12 col-md-6 col-xl-6" align="center" id="bouton"><input type="button" value="Obtenir ma position" onclick="initMap();"></div>
+                            <div class="col-xs-12 col-md-6 col-xl-6" align="center" id="bouton"><input  type="button"  class="btn btn-info" value="Obtenir ma position " onclick="initMap();"></div>
                             
      
                                 <!-- form here -->
                             @using (Html.BeginForm("CreerEntreeGPS", "Home", null, FormMethod.Post, new { @id = "gps", @name = "myForm" })) {
                                 <div class="col-xs-12 col-md-6 col-xl-6" align="center">
-                                    <input type="button" value="Enregistrer en BD" onclick="$('#gps').submit()">
+                                    <input type="button" class="btn btn-info" value="Enregistrer en BD" onclick="enregistrerPosition()">
                                 </div>
-                                <div class="center"><label class="mg-right">Latitude:  </label><input type = "text" name = "lat" id = "txtLat" ><br></div>
-                                <div class="center"><label class="mg-right">Longitude: </label><input type = "text" name = "long" id = "txtLong" ><br></div>
-                                <div class="center"><label class="mg-right" for="id_appareil">Appareil: </label><input type = "text" name = "id_appareil" id = "id_appareil" value = "TEST" ></div><br>
+                                <br>
+                                <div id="champsGPS">
+                                    <label class="mg-right" for="txtLat">Latitude</label><input type="text" name="lat" id="txtLat" v><br><br>
+                                    <label class="mg-right">Longitude</label><input type="text" name="long" id="txtLong"><br><br>
+                                    <label class="mg-right" for="id_appareil">Appareil</label><input type="text" name="id_appareil" id="id_appareil" value="Appareil 1"><br><br>
+
+                                </div>
+                                <script>$("#champsGPS").css("margin-left", "10%");
+                                    $("#champsGPS").css("margin-right", "10%");
+
+                                    function enregistrerPosition() {
 
 
+                                        $.ajax({
+
+                                            method: "POST",
+                                            url: "/Home/CreerEntreeGPS",
+                                            data: {
+                                                lat : $("#txtLat").val(),
+                                                long: $("#txtLong").val(),
+                                                id_appareil: $("#id_appareil").val()
+                                            }
+
+                                        })
+                         .success(function (result) {
+
+                         })
+                         .error(function (xhr, status) {
+                             alert(status);
+                         })
+
+                                    }
+                            </script>
                             }
 
         <h3 style="text-align:center"> Entrées existantes</h3>
         @{
             List<WEB_APP_C2T3.Models.EntreeGPS> a = ViewBag.gps;
             <div style="text-align: center">
-                <table style="width: 90%" align="center">
-                    <tr><th>Appareil</th><th>Latitude</th><th>Longitude</th><th>Afficher sur la carte</th></tr>
+                <table style="width: 90%" align="center" cellspacing="10" cellpadding="8">
+                    <tr ><th>Appareil</th><th>Latitude</th><th>Longitude</th><th id="Afficher"></th><th id="supprimer"></th></tr>
                     @for (int i = 0; i < a.Count; i++)
                     {
-                        <tr>
+                        <tr style="text-align: center" id=@{ Write("\""); Write(a[i].Id); Write("\"");} >
 
                             
                             <td>@{Write(a[i].appareil);} </td>
                             <td> @{Write(a[i].latitude);} </td>
                             <td>@{Write(a[i].longitude); } </td>
-                            <td><button value="salut" onclick="var pos = {lat: @a[i].latitude , lng:  @a[i].longitude}; map.setCenter(pos);         var marker = new google.maps.Marker({
+                            <td><button class="btn btn-info marker" value="Afficher sur la carte" onclick="var pos = {lat: @a[i].latitude , lng:  @a[i].longitude}; map.setCenter(pos);         var marker = new google.maps.Marker({
           position: pos,
           map: map,
-          title: '@a[i].appareil'
-        }); infoWindow.close();">TEST</button></td>
+          title: '@a[i].appareil',
+        label:  '@a[i].appareil'                                      
+                                    
+        }); infoWindow.close();"><span class="glyphicon glyphicon-map-marker"></span></button></td>
+                        
+                        <td> <a><span class="glyphicon glyphicon-remove" onclick="supprimerRangee(@{Write(a[i].Id);})"></span> </a></td>
                         </tr>
                                 }
 
                 </table>
+                <script>
+                    $("th").css("text-align", "center");
+                    $("tr:odd").css("background-color", "#F3F3F3");
+                    $("tr:even").css("background-color", "#E0E0E0");
+                    $("th").css("background-color", "#C0C0C0");
+                    console.log("test");
+                </script>
             </div>
         }
 
@@ -154,10 +206,64 @@
 
                             </script>
                             </div>
+                            <div style="text-align: center">
+                                <br />
+                                <button onclick="initMap()" class="btn btn-info">Effacer les marqueurs</button>
+                            </div>
                         </div>
                         <!-- Text input-->
 
                 <br><br>
+                <button id="btnStartStopTracking" class="btn btn-default" style="color:white">Démarrer le Tracking</button><br />
+                <span id="last_update"></span>
+                <br /><br />
+                <script>
+                    $("#btnStartStopTracking").css("background-color", "red");
+                    
+
+                    $('#btnStartStopTracking').click(function () {
+                        
+                        TrackPosition = !TrackPosition;
+                        
+
+
+                        
+                        
+                        if (TrackPosition) {
+                            var idInterval = setInterval(function () {
+
+                                $.ajax({
+
+                                    method: "POST",
+                                    url: "/Home/EnregistrerPosition",
+                                    data: { lat: $("#txtLat").val(), long: $("#txtLong").val(), id_appareil: $("#id_appareil").val() }
+
+                                })
+                                        .success(function (result) {
+
+                                        })
+                                        .error(function (xhr, status) {
+                                            alert(status);
+                                        })
+
+                                $("#last_update").html("<br>Dernière mise à jour: " + new Date().toLocaleString());
+
+                            }, 5000);
+                            
+                            $("#btnStartStopTracking").css("background-color", "green");
+                            $("#btnStartStopTracking").html("Arrêter le Tracking")
+                        } else {
+                            clearInterval(idInterval);
+                            $("#btnStartStopTracking").css("background-color", "red");
+                            $("#btnStartStopTracking").html("Démarrer le Tracking")
+                        }
+
+                    });
+
+                </script>
+
+
+
                 <form class="form-horizontal">
                     <fieldset>
                         <!-- Form Name -->
@@ -182,7 +288,19 @@
                             <script>
 
                                     function envoyerAlerte() {
-                                        window.location.href = '@Url.Action("EnvoyerAlerte", "Home")/7';
+                                                    $.ajax({
+
+                method: "POST",
+                url: "/Home/EnvoyerAlerte/7",
+                
+
+            })
+                                     .success(function (result) {
+
+                                     })
+                                     .error(function (xhr, status) {
+                                         alert(status);
+                                     })
                                     }</script>
                         </div>
                         <div class="row">
@@ -192,7 +310,19 @@
                                 <button type="button" onclick="resetAlertes();">Effacer les alertes</button>
                                 <script>
                                     function resetAlertes() {
-                                        window.location.href = '@Url.Action("EffacerAlertes", "Home")/';
+                                                   $.ajax({
+
+                method: "POST",
+                url: "/Home/EffacerAlertes",
+                
+
+            })
+                                     .success(function (result) {
+
+                                     })
+                                     .error(function (xhr, status) {
+                                         alert(status);
+                                     })
                                     }</script>
                             </div>
 
@@ -225,8 +355,28 @@
             </div>
         </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxF-Wa_6YWDRLneBhqqIqkkNXlwMaKN1I&callback=initMap"
-            async defer></script>
+    <script>
 
+
+        function supprimerRangee(id) {
+            console.log(id + " suppression");
+            $.ajax({
+
+                method: "POST",
+                url: "/Home/SupprimerEntreeGPS",
+                data: { id_entree: id }
+
+            })
+                                     .success(function (result) {
+
+                                     })
+                                     .error(function (xhr, status) {
+                                         alert(status);
+                                     })
+
+        }
+
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxF-Wa_6YWDRLneBhqqIqkkNXlwMaKN1I&callback=initMap" async defer></script>
 </body>

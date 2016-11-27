@@ -17,6 +17,7 @@ namespace WEB_APP_C2T3
             init.InitializeDatabase(new BddContext());
             // Web API routes
             config.MapHttpAttributeRoutes();
+            
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
