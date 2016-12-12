@@ -112,44 +112,48 @@ vertical-align: text-top">
                                     }
                             </script>
                             }
+                            <div id="tableauEntrees">
+                                <h3 style="text-align:center"> Entrées existantes</h3>
+                                @{
+                                    List<WEB_APP_C2T3.Models.EntreeGPS> a = ViewBag.gps;
+                                    <div style="text-align: center">
+                                        <table style="width: 90%" align="center" cellspacing="10" cellpadding="8">
+                                            <tr><th>Appareil</th><th>Latitude</th><th>Longitude</th><th id="Afficher"></th><th id="supprimer"></th></tr>
+                                            @for (int i = 0; i < a.Count; i++)
+                                            {
+                                                <tr style="text-align: center" id=@{ Write("\""); Write(a[i].Id); Write("\"");}>
 
-        <h3 style="text-align:center"> Entrées existantes</h3>
-        @{
-            List<WEB_APP_C2T3.Models.EntreeGPS> a = ViewBag.gps;
-            <div style="text-align: center">
-                <table style="width: 90%" align="center" cellspacing="10" cellpadding="8">
-                    <tr ><th>Appareil</th><th>Latitude</th><th>Longitude</th><th id="Afficher"></th><th id="supprimer"></th></tr>
-                    @for (int i = 0; i < a.Count; i++)
-                    {
-                        <tr style="text-align: center" id=@{ Write("\""); Write(a[i].Id); Write("\"");} >
 
-                            
-                            <td>@{Write(a[i].appareil);} </td>
-                            <td> @{Write(a[i].latitude);} </td>
-                            <td>@{Write(a[i].longitude); } </td>
-                            <td><button class="btn btn-info marker" value="Afficher sur la carte" onclick="var pos = {lat: @a[i].latitude , lng:  @a[i].longitude}; map.setCenter(pos);         var marker = new google.maps.Marker({
-          position: pos,
-          map: map,
-          title: '@a[i].appareil',
-        label:  '@a[i].appareil'                                      
-                                    
-        }); infoWindow.close();"><span class="glyphicon glyphicon-map-marker"></span></button></td>
-                        
-                        <td> <a><span class="glyphicon glyphicon-remove" onclick="supprimerRangee(@{Write(a[i].Id);})"></span> </a></td>
-                        </tr>
+                                                    <td>@{Write(a[i].appareil);} </td>
+                                                    <td> @{Write(a[i].latitude);} </td>
+                                                    <td>@{Write(a[i].longitude); } </td>
+                                                    <td>
+                                                        <button class="btn btn-info marker" value="Afficher sur la carte" onclick="var pos = {lat: @a[i].latitude , lng:  @a[i].longitude}; map.setCenter(pos);         var marker = new google.maps.Marker({
+                                                         position: pos,
+                                                                  map: map,
+                                                       title: '@a[i].appareil',
+                                                     label:  '@a[i].appareil'
+
+                                                                  }); infoWindow.close();">
+                                                            <span class="glyphicon glyphicon-map-marker"></span>
+                                                        </button>
+                                                    </td>
+
+                                                    <td> <a><span class="glyphicon glyphicon-remove" onclick="supprimerRangee(@{Write(a[i].Id);})"></span> </a></td>
+                                                </tr>
+    }
+
+                                        </table>
+                                        <script>
+                                            $("th").css("text-align", "center");
+                                            $("tr:odd").css("background-color", "#F3F3F3");
+                                            $("tr:even").css("background-color", "#E0E0E0");
+                                            $("th").css("background-color", "#C0C0C0");
+                                            console.log("test");
+                                        </script>
+                                    </div>
                                 }
-
-                </table>
-                <script>
-                    $("th").css("text-align", "center");
-                    $("tr:odd").css("background-color", "#F3F3F3");
-                    $("tr:even").css("background-color", "#E0E0E0");
-                    $("th").css("background-color", "#C0C0C0");
-                    console.log("test");
-                </script>
-            </div>
-        }
-
+                            </div>
 
                             
 

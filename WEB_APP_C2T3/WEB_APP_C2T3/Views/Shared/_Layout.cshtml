@@ -3,11 +3,15 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - InfoLogic</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
 @RenderSection("Styles", false)
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/scripts.js"></script>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -22,7 +26,70 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li class="adminTab">
+                        @Html.ActionLink("Appareils", "Appareils", "Appareil", new { area = "" }, new { @class = "adminTab" })
+                    </li>
+                    <li class="adminTab">
+                        @Html.ActionLink("Utilisateurs", "Utilisateurs", "Utilisateur", new { area = "" }, new { @class = "adminTab" })
+                    </li>
                 </ul>
+                @{try{
+
+
+                        if ((int)Session["uid"] != 0)
+                        {
+                            <form action="/Utilisateur/DeconnecterUtilisateur" method="post" Class="navbar-form navbar-right">
+                                <button class="btn btn-default" type="submit" id="deco">Déconnexion</button>
+                            </form>
+
+
+                            
+            
+                            
+
+
+                        }
+                        else
+                        {
+                            <form Class="navbar-form navbar-right" role="search" style="font-size: 12px" action="/Utilisateur/ConnecterUtilisateur" method="post">
+                                <div Class="input-group-sm">
+                                    <div Class="form-group">
+                                        <input type="text" Class="form-control input-sm login" name="Username" id="username" placeholder="Utilisateur">
+                                    </div>
+                                    <div Class="form-group">
+                                        <input type="password" Class="form-control input-sm login" name="Password" id="password" placeholder="Mot de passe">
+                                    </div>
+                                    <Button Class="btn btn-info btn-sm" type="submit"><span>Connexion</span></Button>
+                                </div>
+                            </form>
+
+                        }
+
+
+                        if (Session["AdminRights"].ToString() == "False" || Session["AdminRights"].ToString() == String.Empty)
+                        {
+                            <script>  $(".adminTab").remove();</script>
+                        }
+
+                    }
+                    catch (Exception)
+                    {
+                        <form Class="navbar-form navbar-right" role="search" style="font-size: 12px" action="/Utilisateur/ConnecterUtilisateur" method="post">
+                            <div Class="input-group-sm">
+                                <div Class="form-group">
+                                    <input type="text" Class="form-control input-sm login" name="Username" id="username" placeholder="Utilisateur">
+                                </div>
+                                <div Class="form-group">
+                                    <input type="password" Class="form-control input-sm login" name="Password" id="password" placeholder="Mot de passe">
+                                </div>
+                                <Button Class="btn btn-info btn-sm" type="submit"><span>Connexion</span></Button>
+                            </div>
+                        </form>
+                        <script>  $(".adminTab").remove();</script>
+                    }
+
+
+                }
             </div>
         </div>
     </div>
@@ -35,7 +102,5 @@
         </footer>
     </div>
 
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
 </body>
 </html>

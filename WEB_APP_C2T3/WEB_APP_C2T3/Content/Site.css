@@ -76,12 +76,7 @@ text-align: right;
 }
 
 
-input[type="text"]{
-  height: 20px;
-  width:50%;
-  border: 1px solid black;
-  margin-top: 10px;
-}
+
 
 
 [class*="col-"], footer {
@@ -117,4 +112,23 @@ table{
 #champsGPS {
     text-align:center;
     padding-bottom: 10px;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+th{
+    text-align: center;
+}
+
+.taille30{
+    height: 30px;
+}
+
+.login{
+    height: 30px
+}
+
+#password{
+    height: 30px
+
 }

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<WEB_APP_C2T3.Models.Utilisateur>
+
+@{
+    ViewBag.Title = "Utilisateurs";
+}
+
+<h2>Utilisateurs</h2>
+
+
+    <form action="/utilisateur/creer" method="post">
+       <button type="submit" value="Go to Google" class="btn btn-success" >Ajouter</button>
+    </form>
+
+<table class="table" style="text-align: center">
+    <tr >
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.username)
+        </th>
+
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.prenom)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.nom)
+        </th>
+
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.administrateur)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.username)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.prenom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.nom)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.administrateur)
+        </td>
+        <td>
+            
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

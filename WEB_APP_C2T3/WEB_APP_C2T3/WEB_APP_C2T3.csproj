@@ -151,16 +151,28 @@
     <Content Include="scripts\jquery-1.10.2.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
+    <Content Include="scripts\scripts.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AlerteController.cs" />
+    <Compile Include="Controllers\AppareilController.cs" />
+    <Compile Include="Controllers\GPSController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UtilisateurController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Modele.cs" />
+    <Compile Include="Models\Alerte.cs" />
+    <Compile Include="Models\Appareil.cs" />
+    <Compile Include="Models\BddContext.cs" />
+    <Compile Include="Models\DAL.cs" />
+    <Compile Include="Models\EntreeGPS.cs" />
+    <Compile Include="Models\IDAL.cs" />
+    <Compile Include="Controllers\InfoSession.cs" />
+    <Compile Include="Models\Utilisateur.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -176,6 +188,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Appareil\Appareils.cshtml" />
+    <Content Include="Views\Appareil\AjouterAppareil.cshtml" />
+    <Content Include="Views\Utilisateur\Utilisateurs.cshtml" />
+    <Content Include="Views\Utilisateur\CreerUtilisateur.cshtml" />
+    <Content Include="Views\Shared\PermissionInsuffisante.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -185,6 +202,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Alerte\" />
+    <Folder Include="Views\Default\" />
+    <Folder Include="Views\GPS\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -15,6 +15,14 @@ namespace WEB_APP_C2T3
             IDatabaseInitializer<BddContext> init = new DropCreateDatabaseAlways<BddContext>();
             Database.SetInitializer(init);
             init.InitializeDatabase(new BddContext());
+
+            using (IDal dal = new Dal())
+            {
+                dal.CreerAlerte("Le serveur a pris feu");
+                dal.creerAppareil("DÉFAUT");
+                dal.creerUtilisateur("administrateur", "admin", "Lafrenière", "Jonathan", true);
+                System.Diagnostics.Debug.WriteLine(dal.obtientTousLesUtilisateurs().Count);
+            }
             // Web API routes
             config.MapHttpAttributeRoutes();
             
