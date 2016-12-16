@@ -32,9 +32,18 @@ namespace WEB_APP_C2T3.Controllers
         {
             using (IDal dal = new Dal())
             {
-                
-                double latitude = Double.Parse(Request["lat"]);
-                double longitude = Double.Parse(Request["long"]);
+                double latitude;
+                double longitude;
+                try{
+                    latitude = Double.Parse(Request["lat"].ToString());
+                    longitude = Double.Parse(Request["long"].ToString());
+                    }catch (Exception e){
+                        System.Diagnostics.Debug.WriteLine(e.Message);
+                        System.Diagnostics.Debug.WriteLine(Request["lat"].ToString().Replace(".", ","));
+                        latitude = Double.Parse(Request["lat"].ToString().Replace(".", ","));
+                        longitude = Double.Parse(Request["long"].ToString().Replace(".", ","));
+                    }
+                        
                 int id = int.Parse((Request["id_appareil"]));
 
                 dal.CreerEntreeGPS(id, latitude, longitude);
@@ -62,9 +71,18 @@ namespace WEB_APP_C2T3.Controllers
         {
             using (IDal dal = new Dal())
             {
-
-                double latitude = Double.Parse(Request["lat"]);
-                double longitude = Double.Parse(Request["long"]);
+                double latitude;
+                double longitude;
+                try
+                {
+                    latitude = Double.Parse(Request["lat"]);
+                    longitude = Double.Parse(Request["long"]);
+                }
+                catch (Exception e)
+                {
+                    latitude = Double.Parse(Request["lat"].Replace(".", ","));
+                    longitude = Double.Parse(Request["long"].Replace(".", ","));
+                }
                 int id = int.Parse(Request["id_appareil"]);
                 dal.CreerEntreeGPS(id, latitude, longitude);
                 positionEnregistree = true;

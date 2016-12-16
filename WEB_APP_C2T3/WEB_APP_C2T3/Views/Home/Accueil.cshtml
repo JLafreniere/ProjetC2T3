@@ -110,11 +110,11 @@
                                         <td> @{Write(a[i].latitude);} </td>
                                         <td>@{Write(a[i].longitude); } </td>
                                         <td>
-                                            <button class="btn btn-info marker" value="Afficher sur la carte" onclick="var pos = {lat: @a[i].latitude , lng:  @a[i].longitude}; map.setCenter(pos);         var marker = new google.maps.Marker({
+                                            <button class="btn btn-info marker" value="Afficher sur la carte" onclick="var pos = {lat: @a[i].latitude.ToString().Replace(",",".") , lng:  @a[i].longitude.ToString().Replace(",", ".")}; map.setCenter(pos);         var marker = new google.maps.Marker({
                         position: pos,
                         map: map,
-                        title: '@a[i].appareil',
-                        label:  '@a[i].appareil'
+                        title: '@a[i].appareil.nom_appareil',
+                        label:  '@a[i].appareil.nom_appareil'
                         }); infoWindow.close();">
                                                 <span class="glyphicon glyphicon-map-marker"></span>
                                             </button>
@@ -170,7 +170,8 @@
                                         {
                                             <script>document.getElementById("rectangle").style.backgroundColor = "red";</script>
                                         }
-                                    }
+                                        
+}
                                 </div>
                             </div>
                             <div class="col-xs-6"><input type="button" class="btn btn-info" name="Envoyer une alerte" value="Envoyer une alerte" align="center" style="margin-top: 32px;" onclick="envoyerAlerte()"></div>

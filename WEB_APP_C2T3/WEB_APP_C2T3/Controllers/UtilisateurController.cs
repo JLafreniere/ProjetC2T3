@@ -26,11 +26,13 @@ namespace WEB_APP_C2T3.Controllers
                 (from u in users
                 where u.username == username && Utilisateur.CreateSHAHash(pwd, u.salt) == u.password
                 select u).FirstOrDefault();
-
-                Session["user"] = true;
-                Session["uid"] = utilisateur.Id;
-                Session["AdminRights"] = utilisateur.administrateur;
-
+                try
+                {
+                    Session["user"] = true;
+                    Session["uid"] = utilisateur.Id;
+                    Session["AdminRights"] = utilisateur.administrateur;
+                }
+                catch (Exception e) { }
 
 
 
