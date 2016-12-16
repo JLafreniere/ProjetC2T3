@@ -10,7 +10,7 @@
     <form action="/utilisateur/creer" method="post">
        <button type="submit" value="Go to Google" class="btn btn-success" >Ajouter</button>
     </form>
-
+<br />
 <table class="table" style="text-align: center">
     <tr >
         <th class="text-center">
@@ -48,7 +48,7 @@
         </td>
         <td>
             
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Supprimer", "Delete", new { id=item.Id })
         </td>
     </tr>
 }

@@ -153,6 +153,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 
 
 function enregistrerPosition() {
+    console.log($("#txtLat").val());
     $.ajax({
 
         method: "POST",
